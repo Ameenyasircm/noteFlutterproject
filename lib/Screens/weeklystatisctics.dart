@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:machine_test_calicut/Constants/my_functions.dart';
+import 'package:machine_test_calicut/Models/transactionModel.dart';
+import 'package:machine_test_calicut/Models/transactionModel.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../Constants/my_colors.dart';
 import '../Providers/main_provider.dart';
@@ -7,15 +11,21 @@ import '../Providers/main_provider.dart';
 class WeeklyStatistics extends StatelessWidget {
    WeeklyStatistics({Key? key}) : super(key: key);
 
-  List<String> weeknamesList=['This Week','Last Week','Last Month','Last Year'];
+   late TooltipBehavior _tooltip;
+
+   List<String> weeknamesList=['This Week','Last Week','Last Month','Last Year'];
   @override
   Widget build(BuildContext context) {
+    _tooltip = TooltipBehavior(enable: true);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
+        leading: InkWell(onTap: (){
+          finish(context);
+        },
+            child: Icon(Icons.arrow_back)),
         centerTitle: true,
         title:   Text(
           'Statistics',
@@ -91,8 +101,24 @@ class WeeklyStatistics extends StatelessWidget {
             InkWell(onTap: (){
             },
               child: Container(height: 300,width: width,
-                color: Colors.greenAccent,),
-            ),
+                // color: Colors.greenAccent,
+              child: Consumer<MainProvider>(
+                builder: (context,value,child) {
+                  return SfCartesianChart(
+                      primaryXAxis: CategoryAxis(),
+                      primaryYAxis: NumericAxis(minimum: 0, maximum: 500000, interval: 10),
+                      tooltipBehavior: _tooltip,
+                      series: <CartesianSeries<TransactionModel, String>>[
+                        ColumnSeries<TransactionModel, String>(
+                            dataSource: value.alltransactionsList,
+                            xValueMapper: (TransactionModel data, _) => data.addedTime.day.toString(),
+                            yValueMapper: (TransactionModel data, _) => int.parse(data.amount),
+                            name: 'Amount',
+                            color: Color.fromRGBO(8, 142, 255, 1))
+                      ]);
+                }
+              ),
+            ),),
             SizedBox(height: 30,),
             Consumer<MainProvider>(
                 builder: (context,value,child) {

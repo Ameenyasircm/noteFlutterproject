@@ -15,8 +15,13 @@ class MainProvider extends ChangeNotifier{
   DatabaseReference mRoot = FirebaseDatabase.instance.ref();
   FirebaseFirestore db = FirebaseFirestore.instance;
 
+  TextEditingController monthNameCT = TextEditingController();
+  List<String> monthList=['JANUARY','FEBRUARY','MARCH','APRIL','MAY','JUNE',
+  'JULY','AUGUST','SEPTEMBER','OCTOBER','NOVEMBER','DECEMBER'];
+
   var outputDayNode = DateFormat('d-MM-yyy');
   List<TransactionModel> alltransactionsList=[];
+  List<TransactionModel> monthlyDataList=[];
   List<SalesData> monthchartList=[];
   double totalIncome=0.0;
   double totalExpense=0.0;
@@ -64,5 +69,7 @@ class MainProvider extends ChangeNotifier{
     formatter.format(totalCollection).substring(0, newText1.length - 3);
     return newText;
   }
+
+
 
 }

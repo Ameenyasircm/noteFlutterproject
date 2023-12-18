@@ -22,7 +22,9 @@ class StatisticsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFFAFAFA),
       appBar: AppBar(
-        leading: Icon(Icons.arrow_back),
+        leading:  InkWell(onTap: (){
+          finish(context);
+        },child: Icon(Icons.arrow_back)),
         centerTitle: true,
         title:   Text(
           'Statistics',
