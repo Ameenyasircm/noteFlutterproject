@@ -106,7 +106,7 @@ class WeeklyStatistics extends StatelessWidget {
                 builder: (context,value,child) {
                   return SfCartesianChart(
                       primaryXAxis: CategoryAxis(),
-                      primaryYAxis: NumericAxis(minimum: 0, maximum: 500000, interval: 10),
+                      primaryYAxis: NumericAxis(minimum: 0, maximum: 5000, interval: 10),
                       tooltipBehavior: _tooltip,
                       series: <CartesianSeries<TransactionModel, String>>[
                         ColumnSeries<TransactionModel, String>(
