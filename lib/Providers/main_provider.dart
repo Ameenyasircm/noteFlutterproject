@@ -48,13 +48,17 @@ class MainProvider extends ChangeNotifier{
             totalExpense=totalExpense+double.parse(map['AMOUNT'].toString());
           }
 
+
           alltransactionsList.add(TransactionModel(
               elemets.id,
               map['TITLE']??'',
               map['TRANSACTION_TYPE']??'',
               transactionType,
               map['AMOUNT'].toString(),
-              addedTime));
+              addedTime,
+            getMonth(addedTime)
+          ));
+          print(getMonth(addedTime).toUpperCase()+' RIRIF');
 
         }
         notifyListeners();
@@ -70,6 +74,21 @@ class MainProvider extends ChangeNotifier{
     return newText;
   }
 
+  List<TransactionModel>  getMonthWiseReport(){
+    List<TransactionModel> list=[];
+    alltransactionsList.where((element) => element.month.toUpperCase()==
+        monthNameCT.text.toUpperCase()).toSet().toList();
+    return list;
+  }
 
+  void updateMonth(String month){
+    monthNameCT.text=month;
+    notifyListeners();
+  }
+
+  String getMonth(DateTime dateTime) {
+    // Use DateFormat from intl package to format the date
+    return DateFormat('MMMM').format(dateTime);
+  }
 
 }

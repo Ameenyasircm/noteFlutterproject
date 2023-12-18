@@ -5,7 +5,8 @@ class TransactionModel{
   String category;
   String amount;
   DateTime addedTime;
-  TransactionModel(this.id,this.title,this.transactionType,this.category,this.amount,this.addedTime);
+  String month;
+  TransactionModel(this.id,this.title,this.transactionType,this.category,this.amount,this.addedTime,this.month);
 }
 
 class SalesData {

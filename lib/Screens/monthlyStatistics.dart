@@ -139,6 +139,7 @@ class MonthlyStatistics extends StatelessWidget {
                             onChanged: (value2) {
                               value.monthNameCT
                                   .text = value2;
+                              value.updateMonth(value2);
                             },
                             controller: fieldTextEditingController,
                             focusNode: fieldFocusNode,
@@ -149,6 +150,7 @@ class MonthlyStatistics extends StatelessWidget {
                         onSelected: (String selection) {
                           value.monthNameCT.text =
                               selection;
+                          value.updateMonth(selection);
                         },
                         optionsViewBuilder: (BuildContext context,
                             AutocompleteOnSelected<String> onSelected,
@@ -214,7 +216,6 @@ class MonthlyStatistics extends StatelessWidget {
               Consumer<MainProvider>(
                 builder: (context,value,child) {
                   return InkWell(onTap: (){
-                    callNext(WeeklyStatistics(), context);
                   },
                     child: Container(
                       height: 300,
@@ -225,6 +226,7 @@ class MonthlyStatistics extends StatelessWidget {
                           series: <CircularSeries<TransactionModel, String>>[
                             DoughnutSeries<TransactionModel, String>(
                                 dataSource: value.alltransactionsList,
+                                // dataSource: value.getMonthWiseReport(),
                                 xValueMapper: (TransactionModel data, _) => data.addedTime.month.toString(),
                                 yValueMapper: (TransactionModel data, _) => int.parse(data.amount),
                                 name: 'Gold')
@@ -235,86 +237,91 @@ class MonthlyStatistics extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              GridView.builder(
-                  // scrollDirection: Axis.horizontal,
-                  physics: const NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 1.5,
-                  ),
-                  itemCount: reportTextList.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      width: 186,
-                      height: 133,
-                      decoration: ShapeDecoration(
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        shadows: [
-                          BoxShadow(
-                            color: Color(0x0A000000),
-                            blurRadius: 48,
-                            offset: Offset(0, 2),
-                            spreadRadius: 0,
-                          )
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 5,
-                                  backgroundColor: colorsList[index],
-                                ),SizedBox(width: 10,),
-                                Text(
-                                  reportTextList[index],
-                                  style: TextStyle(
-                                    color: Color(0xFF303840),
-                                    fontSize: 14,
-                                    fontFamily: 'SF Pro Text',
-                                    fontWeight: FontWeight.w500,
-                                    height: 0,
-                                    letterSpacing: 1,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            Text(
-                              '\$1,400',
-                              style: TextStyle(
-                                color: Color(0xFF94C3F6),
-                                fontSize: 18,
-                                fontFamily: 'SF Pro Text',
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            SizedBox(height: 10,),
-                            SizedBox(
-                              width: 157,
-                              child: Text(
-                                'Mauris hendrerit mollis bibendum quisque.',
-                                style: TextStyle(
-                                  color: Color(0xFF7C8894),
-                                  fontSize: 12,
-                                  fontFamily: 'SF Pro Text',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
+              InkWell(onTap: (){
+                callNext(WeeklyStatistics(), context);
+
+              },
+                child: GridView.builder(
+                    // scrollDirection: Axis.horizontal,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemCount: reportTextList.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: 186,
+                        height: 133,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)),
+                          shadows: [
+                            BoxShadow(
+                              color: Color(0x0A000000),
+                              blurRadius: 48,
+                              offset: Offset(0, 2),
+                              spreadRadius: 0,
+                            )
                           ],
                         ),
-                      ),
-                    );
-                  }),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 5,
+                                    backgroundColor: colorsList[index],
+                                  ),SizedBox(width: 10,),
+                                  Text(
+                                    reportTextList[index],
+                                    style: TextStyle(
+                                      color: Color(0xFF303840),
+                                      fontSize: 14,
+                                      fontFamily: 'SF Pro Text',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0,
+                                      letterSpacing: 1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10,),
+                              Text(
+                                '\$1,400',
+                                style: TextStyle(
+                                  color: Color(0xFF94C3F6),
+                                  fontSize: 18,
+                                  fontFamily: 'SF Pro Text',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              SizedBox(height: 10,),
+                              SizedBox(
+                                width: 157,
+                                child: Text(
+                                  'Mauris hendrerit mollis bibendum quisque.',
+                                  style: TextStyle(
+                                    color: Color(0xFF7C8894),
+                                    fontSize: 12,
+                                    fontFamily: 'SF Pro Text',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+              ),
             ],
           ),
         ),

@@ -215,55 +215,59 @@ class StatisticsScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 15,),
-                    InkWell(onTap: (){
-                      callNext(MonthlyStatistics(), context);
-                    },
-                      child: Container(height: 300,width: width,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Color(0x14000000),
-                              blurRadius: 48,
-                              offset: Offset(0, 2),
-                              spreadRadius: 0,
-                            )
-                          ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15)
-                      ),
-                      child:  Consumer<MainProvider>(
-                        builder: (context,value,chilf) {
-                          return Container(
-                                child: SfCartesianChart(
+                    Consumer<MainProvider>(
+                      builder: (context,value,child) {
+                        return InkWell(onTap: (){
+                          callNext(MonthlyStatistics(), context);
+                        },
+                          child: Container(height: 300,width: width,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0x14000000),
+                                  blurRadius: 48,
+                                  offset: Offset(0, 2),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15)
+                          ),
+                          child:  Consumer<MainProvider>(
+                            builder: (context,value,chilf) {
+                              return Container(
+                                    child: SfCartesianChart(
 
-                                  primaryXAxis: CategoryAxis(),
-                                  // Chart title
-                                  title: ChartTitle(text: ''),
-                                  // Enable legend
-                                  legend: Legend(isVisible: true),
-                                  // Enable tooltip
-                                  tooltipBehavior: tooltipBehavior,
+                                      primaryXAxis: CategoryAxis(),
+                                      // Chart title
+                                      title: ChartTitle(text: ''),
+                                      // Enable legend
+                                      legend: Legend(isVisible: true),
+                                      // Enable tooltip
+                                      tooltipBehavior: tooltipBehavior,
 
-                                  series: <LineSeries<TransactionModel, String>>[
-                                    LineSeries<TransactionModel, String>(
-                                        dataSource: value.alltransactionsList.where((element) => element.transactionType=='INCOME').toSet().toList(),
-                                        xValueMapper: (TransactionModel sales, _) => sales.addedTime.month.toString(),
-                                        yValueMapper: (TransactionModel sales, _) => int.parse(sales.amount.toString()),
-                                        // Enable data label
-                                        dataLabelSettings: DataLabelSettings(isVisible: true)
-                                    ),LineSeries<TransactionModel, String>(
-                                        dataSource: value.alltransactionsList.where((element) => element.transactionType=='EXPENSE').toSet().toList(),
-                                        xValueMapper: (TransactionModel sales, _) => sales.addedTime.month.toString(),
-                                        yValueMapper: (TransactionModel sales, _) => int.parse(sales.amount.toString()),
-                                        // Enable data label
-                                        dataLabelSettings: DataLabelSettings(isVisible: true)
-                                    ),
-                                  ]
-                              )
-                          );
-                        }
-                      ),
-                      ),
+                                      series: <LineSeries<TransactionModel, String>>[
+                                        LineSeries<TransactionModel, String>(
+                                            dataSource: value.alltransactionsList.where((element) => element.transactionType=='INCOME').toSet().toList(),
+                                            xValueMapper: (TransactionModel sales, _) => sales.addedTime.month.toString(),
+                                            yValueMapper: (TransactionModel sales, _) => int.parse(sales.amount.toString()),
+                                            // Enable data label
+                                            dataLabelSettings: DataLabelSettings(isVisible: true)
+                                        ),LineSeries<TransactionModel, String>(
+                                            dataSource: value.alltransactionsList.where((element) => element.transactionType=='EXPENSE').toSet().toList(),
+                                            xValueMapper: (TransactionModel sales, _) => sales.addedTime.month.toString(),
+                                            yValueMapper: (TransactionModel sales, _) => int.parse(sales.amount.toString()),
+                                            // Enable data label
+                                            dataLabelSettings: DataLabelSettings(isVisible: true)
+                                        ),
+                                      ]
+                                  )
+                              );
+                            }
+                          ),
+                          ),
+                        );
+                      }
                     )
 
                   ],
