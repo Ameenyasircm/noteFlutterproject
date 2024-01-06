@@ -10,7 +10,7 @@ import 'package:sms_autofill/sms_autofill.dart';
 import '../Constants/my_functions.dart';
 import '../Providers/LoginProvider.dart';
 import '../Providers/main_provider.dart';
-import 'bottom_navigation_screen.dart';
+import 'home_screen.dart';
 
 enum MobileVarificationState {
   SHOW_MOBILE_FORM_STATE,
@@ -73,11 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: height * 0.1,
                     ),
-                    Image.asset(
-                      'assets/wallet.png',
-                      scale: 2.5,
-                      color: Colors.white,
-                    ),
+                   Icon(Icons.file_copy,size: 80,color: Colors.white,),
                     SizedBox(
                       height: height * 0.07,
                     ),
@@ -475,7 +471,7 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         var LoginUser = authCredential.user;
         if (LoginUser != null) {
-          callNextReplacement(BottomNavigationScreen(), context);
+          callNextReplacement(HomeScreen(), context);
 
           // callNextReplacement(AdminHomeScreen(), context);
 

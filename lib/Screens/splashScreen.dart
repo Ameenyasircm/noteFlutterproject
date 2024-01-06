@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:machine_test_calicut/Providers/main_provider.dart';
+import 'package:machine_test_calicut/Screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../Constants/my_functions.dart';
 import '../Providers/LoginProvider.dart';
-import 'bottom_navigation_screen.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,7 +25,6 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 3), () async {
       MainProvider mainProvider =
       Provider.of<MainProvider>(context, listen: false);
-      mainProvider.fetchAllTransactions();
       FirebaseAuth auth = FirebaseAuth.instance;
       var user = auth.currentUser;
 
@@ -33,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (user == null) {
         callNextReplacement(const LoginScreen(), context);
       } else {
-        callNextReplacement(BottomNavigationScreen(), context);
+        callNextReplacement(HomeScreen(), context);
       }
     });
   }
@@ -53,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
             colors: [Color(0xFF94C3F6), Color(0xFF94EDF7)],
           ),
         ),
-        child: Image.asset('assets/wallet.png',scale: 2.5,color: Colors.white,),
+        child: Icon(Icons.file_copy,size: 100,color: Colors.white,),
       )
 
     );
