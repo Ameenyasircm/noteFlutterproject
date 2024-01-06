@@ -10,6 +10,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MainProvider mainProvider =
+    Provider.of<MainProvider>(context, listen: false);
     final width=MediaQuery.of(context).size.width;
     final height=MediaQuery.of(context).size.height;
     return Scaffold(
@@ -17,6 +19,8 @@ class HomeScreen extends StatelessWidget {
         title: Text('Notes'),
       ),
       floatingActionButton: InkWell(onTap: (){
+        mainProvider.titleCT.clear();
+        mainProvider.descriptionCT.clear();
         callNext(AddNotesScreen(), context);
       },
         child: CircleAvatar(
